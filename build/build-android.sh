@@ -54,7 +54,7 @@ download_3rd()
         echo "there is no 3rd package list\n"
         return 1
     fi
-    cat ${CURRENT_PATH}/3rd_party/3rd.list|while read LINE
+    cat ${CURRENT_PATH}/3rd_party/3rd-android.list|while read LINE
     do
         name=`echo "${LINE}"|awk -F '|' '{print $1}'`
         url=`echo "${LINE}"|awk -F '|' '{print $2}'`
