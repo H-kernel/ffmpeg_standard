@@ -15,7 +15,7 @@ export BUILD_SILENT=FALSE
 
 NDK_VERSION=android-ndk-r21d-linux-x86_64
 
-export ANDROID_NDK=${THIRD_ROOT}${NDK_VERSION}
+
 export SDK_VERSION=21
 export HOST_CPU=armv7-a
 export TARGET_OS=linux
@@ -27,13 +27,7 @@ export TARGET=${ARCH}-linux-android
 export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
 export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST_CPU} -mfloat-abi=softfp -mfpu=neon"
 
-export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
-export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
-export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
 
-export CC=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang
-export CXX=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang++
-CROSS_PREFIX=${TOOLCHAIN}/${TARGET}-
 
 
 
@@ -220,7 +214,14 @@ build_ndk()
         return 1
     fi
     NDK_PATH=`pwd`
-    export ANDROID_NDK=${NDK_PATH}
+    export ANDROID_NDK=${THIRD_ROOT}${NDK_VERSION}
+    export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
+    export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
+    export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
+
+    export CC=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang
+    export CXX=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang++
+    export CROSS_PREFIX=${TOOLCHAIN}/${TARGET}-
     
     return 0
 }
