@@ -326,9 +326,9 @@ build_x265()
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
           -DCMAKE_C_COMPILER=${CC} \
-          -DCMAKE_C_FLAGS=${ADDI_CFLAGS} \
+          -DCMAKE_C_FLAGS="${ADDI_CFLAGS}" \
           -DCMAKE_CXX_COMPILER=${CXX} \
-          -DCMAKE_CXX_FLAGS=${ADDI_CFLAGS} \
+          -DCMAKE_CXX_FLAGS="${ADDI_CFLAGS}" \
           -DCMAKE_AR=${LLVM_AR} \
           -DCMAKE_LINKER=${LLVM_LINKER} \
           -DCMAKE_NM=${LLVM_NM} \
