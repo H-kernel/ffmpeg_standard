@@ -255,7 +255,7 @@ build_x264()
     cd x264*/
     
     ./configure --prefix=${EXTEND_ROOT} \
-                --cross-prefix=$CROSS_PREFIX \
+                --cross-prefix=$TOOLCHAIN/armv7a-linux-androideabi21-clang \
                 --sysroot=${SYSROOT} \
                 --enable-static \
                 --enable-pic \
