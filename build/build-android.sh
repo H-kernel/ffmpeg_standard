@@ -13,25 +13,25 @@ export WITH_3RDPARTY=TRUE
 export WITH_DEBUG=FALSE
 export BUILD_SILENT=FALSE
 
-ANDROID_NDK=${THIRD_ROOT}android-ndk-r19c
-SDK_VERSION=21
-HOST_CPU=armv7-a
-TARGET_OS=linux
+export ANDROID_NDK=${THIRD_ROOT}android-ndk-r19c
+export SDK_VERSION=21
+export HOST_CPU=armv7-a
+export TARGET_OS=linux
 #ARCH=arm64
-ARCH=arm
-HOST=${ARCH}-linux-android
-TARGET=${ARCH}-linux-android
+export ARCH=arm
+export HOST=${ARCH}-linux-android
+export TARGET=${ARCH}-linux-android
 
-ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
-ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST_CPU} -mfloat-abi=softfp -mfpu=neon"
+export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
+export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST_CPU} -mfloat-abi=softfp -mfpu=neon"
 
-PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
-SYSROOT=${PREBUILT}/linux-x86_64/sysroot
-TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
+export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
+export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
+export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
 
-export CC=${TOOLCHAIN}/bin/${TARGET}${SDK_VERSION}-clang
-export CXX=${TOOLCHAIN}/bin/${TARGET}${SDK_VERSION}-clang++
-CROSS_PREFIX=${TOOLCHAIN}/bin/${TARGET}-
+export CC=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang
+export CXX=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang++
+CROSS_PREFIX=${TOOLCHAIN}/${TARGET}-
 
 
 
