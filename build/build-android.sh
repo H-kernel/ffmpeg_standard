@@ -16,22 +16,24 @@ export BUILD_SILENT=FALSE
 ANDROID_NDK=${THIRD_ROOT}android-ndk-r19c
 SDK_VERSION=21
 HOST_CPU=armv7-a
+TARGET_OS=linux
 #ARCH=arm64
 ARCH=arm
-HOST=arm-linux
+HOST=${ARCH}-linux-android
+TARGET=${ARCH}-linux-android
 
 ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
 ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST_CPU} -mfloat-abi=softfp -mfpu=neon"
 
-SYSROOT=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
-TOOLCHAIN=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin
+PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
+SYSROOT=${PREBUILT}/linux-x86_64/sysroot
+TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
 
-PREFIX=$(pwd)/android/${HOST_CPU}
-x264=$(pwd)/x264/android/${HOST_CPU}
-export PATH=$x264/bin:$PATH
-export PATH=$x264/include:$PATH
-export PATH=$x264/lib:$PATH
-#export PKG_CONFIG_PATH=$x264/lib/pkgconfig:$PKG_CONFIG_PATH
+export CC=${TOOLCHAIN}/bin/${TARGET}${SDK_VERSION}-clang
+export CXX=${TOOLCHAIN}/bin/${TARGET}${SDK_VERSION}-clang++
+CROSS_PREFIX=${TOOLCHAIN}/bin/${TARGET}-
+
+
 
 echo "------------------------------------------------------------------------------"
 echo " MK_ROOT exported as ${MK_ROOT}"
@@ -255,7 +257,7 @@ build_x264()
     cd x264*/
     
     ./configure --prefix=${EXTEND_ROOT} \
-                --cross-prefix=$TOOLCHAIN/armv7a-linux-androideabi21-clang \
+                --cross-prefix=${CROSS_PREFIX} \
                 --sysroot=${SYSROOT} \
                 --enable-static \
                 --enable-pic \
