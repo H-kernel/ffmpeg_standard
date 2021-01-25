@@ -31,7 +31,7 @@ x264=$(pwd)/x264/android/${HOST_CPU}
 export PATH=$x264/bin:$PATH
 export PATH=$x264/include:$PATH
 export PATH=$x264/lib:$PATH
-export PKG_CONFIG_PATH=$x264/lib/pkgconfig:$PKG_CONFIG_PATH
+#export PKG_CONFIG_PATH=$x264/lib/pkgconfig:$PKG_CONFIG_PATH
 
 echo "------------------------------------------------------------------------------"
 echo " MK_ROOT exported as ${MK_ROOT}"
@@ -590,33 +590,7 @@ build_libvpx()
     
     return 0
 }
-build_libwebp()
-{
-    module_pack="libwebp-0.6.1.tar.gz"
-    cd ${THIRD_ROOT}
-    if [ ! -f ${THIRD_ROOT}${module_pack} ]; then
-        echo "start get the libwebp package from server\n"
-        wget http://downloads.webmproject.org/releases/webp/${module_pack}
-    fi
-    tar -zxvf ${module_pack}
-    
-    cd libwebp*/
-    ./configure ${config_args} --prefix=${EXTEND_ROOT} --with-pic=yes
-    if [ 0 -ne ${?} ]; then
-        echo "configure libwebp fail!\n"
-        return 1
-    fi
-    
-    make clean
-    make&&make install
-    
-    if [ 0 -ne ${?} ]; then
-        echo "build libwebp fail!\n"
-        return 1
-    fi
-    
-    return 0
-}
+
 
 build_xvidcore()
 {
@@ -787,10 +761,6 @@ build_extend_modules()
     fi
 
     build_libvpx
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_libwebp
     if [ 0 -ne ${?} ]; then
         return 1
     fi
