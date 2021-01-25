@@ -334,7 +334,7 @@ build_x265()
           -DCMAKE_OBJDUMP=${LLVM_OBJDUMP} \
           -DCMAKE_RANLIB=${LLVM_RANLIB} \
           -DENABLE_SHARED=0 \
-          -DENABLE_TESTS=0 \
+          -DENABLE_TESTS=OFF \
           -DNEON_ANDROID=1 \
           -G "Unix Makefiles" ../../source 
 
