@@ -717,21 +717,6 @@ build_extend_modules()
     if [ 0 -ne ${?} ]; then
         return 1
     fi
-    ##set the env config
-    set_extend_config
-    
-    build_yasm
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_nasm
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_bzip2
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
 
     build_x264
     if [ 0 -ne ${?} ]; then
@@ -741,36 +726,8 @@ build_extend_modules()
     if [ 0 -ne ${?} ]; then
         return 1
     fi
-    build_ffad
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_faac
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_lame
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_opencore_amr
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_openjpeg
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_opus
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
 
     build_libvpx
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-    build_xvidcore
     if [ 0 -ne ${?} ]; then
         return 1
     fi
