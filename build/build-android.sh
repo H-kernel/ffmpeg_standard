@@ -215,6 +215,13 @@ ndk_configure()
 
     export CC=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang
     export CXX=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang++
+
+    export LLVM_AR=${TOOLCHAIN}/llvm-ar
+    export LLVM_LINKER=${TOOLCHAIN}/llvm-ld
+    export LLVM_NM=${TOOLCHAIN}/llvm-nm
+    export LLVM_OBJDUMP=${TOOLCHAIN}/llvm-objdump
+    export LLVM_RANLIB=${TOOLCHAIN}/llvm-ranlib
+
     export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}-
 
     export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
@@ -315,10 +322,18 @@ build_x265()
     cmake ../../source \
           -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} \
           -DCMAKE_SYSTEM_NAME=Android \
-          -DCMAKE_SYSTEM_VERSION=${SDK_VERSION} \
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
+          -DCMAKE_C_COMPILER=${CC} \
+          -DCMAKE_C_FLAGS=${ADDI_CFLAGS} \
+          -DCMAKE_CXX_COMPILER=${CXX} \
+          -DCMAKE_CXX_FLAGS=${ADDI_CFLAGS} \
+          -DCMAKE_AR=${LLVM_AR} \
+          -DCMAKE_LINKER=${LLVM_LINKER} \
+          -DCMAKE_NM=${LLVM_NM} \
+          -DCMAKE_OBJDUMP=${LLVM_OBJDUMP} \
+          -DCMAKE_RANLIB=${LLVM_RANLIB} \
           -DENABLE_SHARED=0 \
           -DENABLE_TESTS=0 \
           -DNEON_ANDROID=1
