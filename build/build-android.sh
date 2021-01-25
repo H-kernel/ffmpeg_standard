@@ -319,7 +319,7 @@ build_x265()
     mkdir ./${PLATFORM_PREFIX}
     cd ./${PLATFORM_PREFIX}
 
-    cmake ../../source \
+    cmake "../../source \
           -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} \
           -DCMAKE_SYSTEM_NAME=Android \
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
@@ -336,7 +336,7 @@ build_x265()
           -DCMAKE_RANLIB=${LLVM_RANLIB} \
           -DENABLE_SHARED=0 \
           -DENABLE_TESTS=0 \
-          -DNEON_ANDROID=1
+          -DNEON_ANDROID=1"
 
     if [ 0 -ne ${?} ]; then
         echo "configure x265 fail!\n"
