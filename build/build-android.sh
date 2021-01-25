@@ -14,17 +14,8 @@ export WITH_DEBUG=FALSE
 export BUILD_SILENT=FALSE
 
 export SDK_VERSION=21
-export HOST_CPU=armv7-a
-export TARGET_OS=linux
 #ARCH=arm64
 export ARCH=arm
-export HOST=${ARCH}-linux-android
-export TARGET=${ARCH}-linux-android
-
-export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
-export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST_CPU} -mfloat-abi=softfp -mfpu=neon"
-
-
 
 
 
@@ -62,6 +53,7 @@ download_3rd()
     done
     return 0
 }
+
 
 
 build_ffmpeg()
@@ -195,10 +187,53 @@ rebuild_ffmpeg()
     return 0
 }
 
+ndk_configure()
+{
+    if [ "$ARCH" = "arm64" ]; then
+        PLATFORM_PREFIX="aarch64-linux-android"
+        HOST="aarch64"
+    elif [ "$ARCH" = "arm" ]; then
+        PLATFORM_PREFIX="arm-linux-androideabi"
+        HOST="arm"
+    elif [ "$ARCH" = "armv7a" ]; then
+        PLATFORM_PREFIX="armv7a-linux-androideabi"
+        HOST="armv7a"
+    elif [ "$ARCH" = "i686" ]; then
+        PLATFORM_PREFIX="i686-linux-android"
+        HOST="i686"
+    elif [ "$ARCH" = "x86_64" ]; then
+        PLATFORM_PREFIX="x86_64-linux-android"
+        HOST="x86_64"
+    else
+        echo "unsupport ARCH:$ARCH."
+        return -1
+    fi
+
+    export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
+    export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
+    export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
+
+    export CC=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang
+    export CXX=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang++
+    export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}-
+
+    export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
+    export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
+
+}
+
 build_ndk()
 {
     module_pack=android-ndk-r21d-linux-x86_64.zip
     cd ${THIRD_ROOT}
+
+    cd android-ndk*/                
+    if [ 0 -eq ${?} ]; then
+        NDK_PATH=`pwd`
+        export ANDROID_NDK=${NDK_PATH}        
+        return 0
+    fi
+
     if [ ! -f ${THIRD_ROOT}${module_pack} ]; then
         echo "start get the android-ndk package from server\n"
         wget http://139.9.183.199:10608/download/${module_pack}
@@ -212,13 +247,6 @@ build_ndk()
     fi
     NDK_PATH=`pwd`
     export ANDROID_NDK=${NDK_PATH}
-    export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
-    export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
-    export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
-
-    export CC=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang
-    export CXX=${TOOLCHAIN}/${TARGET}${SDK_VERSION}-clang++
-    export CROSS_PREFIX=${TOOLCHAIN}/${TARGET}-
     
     return 0
 }
