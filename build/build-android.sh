@@ -190,19 +190,19 @@ rebuild_ffmpeg()
 ndk_configure()
 {
     if [ "$ARCH" = "arm64" ]; then
-        PLATFORM_PREFIX="aarch64-linux-android"
+        export PLATFORM_PREFIX="aarch64-linux-android"
         export HOST="aarch64"
     elif [ "$ARCH" = "arm" ]; then
-        PLATFORM_PREFIX="arm-linux-androideabi"
+        export PLATFORM_PREFIX="arm-linux-androideabi"
         export HOST="arm"
     elif [ "$ARCH" = "armv7a" ]; then
-        PLATFORM_PREFIX="armv7a-linux-androideabi"
+        export PLATFORM_PREFIX="armv7a-linux-androideabi"
         export HOST="armv7a"
     elif [ "$ARCH" = "i686" ]; then
-        PLATFORM_PREFIX="i686-linux-android"
+        export PLATFORM_PREFIX="i686-linux-android"
         export HOST="i686"
     elif [ "$ARCH" = "x86_64" ]; then
-        PLATFORM_PREFIX="x86_64-linux-android"
+        export PLATFORM_PREFIX="x86_64-linux-android"
         export HOST="x86_64"
     else
         echo "unsupport ARCH:$ARCH."
@@ -272,7 +272,7 @@ build_x264()
     cd x264*/
     
     ./configure --prefix=${EXTEND_ROOT} \
-                --host=${HOST} \
+                --host=${PLATFORM_PREFIX} \
                 --cc=${CC} \
                 --cxx=${CXX} \
                 --cross-prefix=${CROSS_PREFIX} \
