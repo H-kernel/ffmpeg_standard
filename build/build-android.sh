@@ -310,8 +310,22 @@ build_x265()
     fi
     tar -zxvf ${module_pack}
     
-    cd x265*/build/linux
-    cmake -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC -G "Unix Makefiles" ../../source
+    cd x265*/build/
+    mkdir ./${PLATFORM_PREFIX}
+    cd ./${PLATFORM_PREFIX}
+
+    cmake ../../source \
+          -DCMAKE_SYSTEM_NAME=Android \
+          -DCMAKE_SYSTEM_VERSION=${SDK_VERSION} \
+          -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
+          -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
+          -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
+          -DENABLE_SHARED=0 \ # add this line.
+          -DNEON_ANDROID=1
+
+    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/cli.dir/link.txt
+    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/x265-shared.dir/link.txt
+    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/x265-static.dir/link.txt
 
     if [ 0 -ne ${?} ]; then
         echo "configure x265 fail!\n"
