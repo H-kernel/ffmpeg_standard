@@ -252,11 +252,10 @@ build_x264()
         wget http://download.videolan.org/pub/videolan/x264/snapshots/${module_pack}
     fi
     tar -jxvf ${module_pack}
-    ##set the env config
-    set_extend_config
     cd x264*/
     
     ./configure --prefix=${EXTEND_ROOT} \
+                --host=${HOST} \
                 --cross-prefix=${CROSS_PREFIX} \
                 --sysroot=${SYSROOT} \
                 --enable-static \
