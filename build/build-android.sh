@@ -320,7 +320,7 @@ build_x265()
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-          -DENABLE_SHARED=0 \ # add this line.
+          -DENABLE_SHARED=0 \
           -DNEON_ANDROID=1
 
     sed -i '' 's/-lpthread/-pthread/' CMakeFiles/cli.dir/link.txt
