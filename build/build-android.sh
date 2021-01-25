@@ -230,7 +230,12 @@ build_ndk()
     cd android-ndk*/                
     if [ 0 -eq ${?} ]; then
         NDK_PATH=`pwd`
-        export ANDROID_NDK=${NDK_PATH}        
+        export ANDROID_NDK=${NDK_PATH}
+        ndk_configure
+        if [ 0 -ne ${?} ]; then
+            echo "configure android-ndk fail!\n"
+            return 1
+        fi
         return 0
     fi
 
@@ -247,7 +252,11 @@ build_ndk()
     fi
     NDK_PATH=`pwd`
     export ANDROID_NDK=${NDK_PATH}
-    
+    ndk_configure
+    if [ 0 -ne ${?} ]; then
+        echo "configure android-ndk fail!\n"
+        return 1
+    fi
     return 0
 }
 
