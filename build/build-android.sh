@@ -711,6 +711,10 @@ build_bzip2()
 
 build_extend_modules()
 {
+    build_ndk
+    if [ 0 -ne ${?} ]; then
+        return 1
+    fi
     ##set the env config
     set_extend_config
     
