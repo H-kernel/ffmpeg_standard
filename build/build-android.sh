@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+#set -x
 set -o nounset
 MK_VERSION="ffmpeg 1.0.1"
 CURRENT_PATH=`pwd`
@@ -91,8 +91,8 @@ build_ffmpeg()
                 --target-os=android \
                 --arch=$ARCH \
                 --sysroot=$SYSROOT \
-                --cc=$TOOLCHAIN/armv7a-linux-androideabi21-clang \
-                --cxx=$TOOLCHAIN/armv7a-linux-androideabi21-clang++ \
+                --cc=${CC} \
+                --cxx=${CXX} \
                 --strip=$TOOLCHAIN/arm-linux-androideabi-strip \
                 --extra-cflags="$ADDI_CFLAGS" \
                 --extra-ldflags="$ADDI_LDFLAGS" \
@@ -235,6 +235,8 @@ build_x264()
     
     ./configure --prefix=${EXTEND_ROOT} \
                 --host=${HOST} \
+                --cc=${CC} \
+                --cxx=${CXX} \
                 --cross-prefix=${CROSS_PREFIX} \
                 --sysroot=${SYSROOT} \
                 --enable-static \
