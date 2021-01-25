@@ -15,7 +15,7 @@ export BUILD_SILENT=FALSE
 
 NDK_VERSION=android-ndk-r21d-linux-x86_64
 
-export ANDROID_NDK=${THIRD_ROOT}${NDK_VERSION}.zip
+export ANDROID_NDK=${THIRD_ROOT}${NDK_VERSION}
 export SDK_VERSION=21
 export HOST_CPU=armv7-a
 export TARGET_OS=linux
@@ -206,7 +206,7 @@ rebuild_ffmpeg()
 
 build_ndk()
 {
-    module_pack=${NDK_VERSION}
+    module_pack=${NDK_VERSION}.zip
     cd ${THIRD_ROOT}
     if [ ! -f ${THIRD_ROOT}${module_pack} ]; then
         echo "start get the android-ndk package from server\n"
