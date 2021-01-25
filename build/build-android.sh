@@ -70,29 +70,10 @@ download_3rd()
     return 0
 }
 
-set_extend_config()
-{
-    find=`env|grep PKG_CONFIG_PATH`    
-    if [ "find${find}" == "find" ]; then    
-        export PKG_CONFIG_PATH=${EXTEND_ROOT}/lib/pkgconfig/
-    else
-        export PKG_CONFIG_PATH=${EXTEND_ROOT}/lib/pkgconfig/:${PKG_CONFIG_PATH}
-    fi
-    
-    find=`env|grep PATH`
-    if [ "find${find}" == "find" ]; then    
-        export PATH=${EXTEND_ROOT}/bin/
-    else
-        export PATH=${EXTEND_ROOT}/bin/:${PATH}
-    fi
-}
 
 build_ffmpeg()
 {    
-    cd ${MK_ROOT}/ffmpeg*
-    ##set the env config
-    set_extend_config
-    
+    cd ${MK_ROOT}/ffmpeg*    
     cd ffbuild/
     chmod +x *.sh
     cd ..
@@ -202,8 +183,6 @@ build_ffmpeg_debug()
 rebuild_ffmpeg()
 {    
     cd ${MK_ROOT}/ffmpeg*
-    ##set the env config
-    set_extend_config
     
     cd ffbuild/
     chmod +x *.sh
@@ -292,8 +271,6 @@ build_x265()
     tar -zxvf ${module_pack}
     
     cd x265*/build/linux
-    ##set the env config
-    set_extend_config
     cmake -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC -G "Unix Makefiles" ../../source
 
     if [ 0 -ne ${?} ]; then
@@ -740,8 +717,6 @@ build_extend_modules()
 
 setup()
 {
-    ##set the env config
-    set_extend_config
     
     if [ "${WITH_3RDPARTY}" == "TRUE" ];then
         download_3rd
@@ -808,7 +783,6 @@ mkdir -p ${PREFIX_ROOT}/lib
 
 QUIT=0
 while [ "$QUIT" == "0" ]; do
-    set_extend_config
     OPTION_NUM=1
     if [ ! -x "`which wget 2>/dev/null`" ]; then
         echo "Need to install wget."
