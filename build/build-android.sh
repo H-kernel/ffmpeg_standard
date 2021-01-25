@@ -273,8 +273,6 @@ build_x264()
     
     ./configure --prefix=${EXTEND_ROOT} \
                 --host=${PLATFORM_PREFIX} \
-                --cc=${CC} \
-                --cxx=${CXX} \
                 --cross-prefix=${CROSS_PREFIX} \
                 --sysroot=${SYSROOT} \
                 --enable-static \
@@ -322,10 +320,6 @@ build_x265()
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
           -DENABLE_SHARED=0 \
           -DNEON_ANDROID=1
-
-    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/cli.dir/link.txt
-    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/x265-shared.dir/link.txt
-    sed -i '' 's/-lpthread/-pthread/' CMakeFiles/x265-static.dir/link.txt
 
     if [ 0 -ne ${?} ]; then
         echo "configure x265 fail!\n"
