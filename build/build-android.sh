@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -x
+set -x
 set -o nounset
 MK_VERSION="ffmpeg 1.0.1"
 CURRENT_PATH=`pwd`
