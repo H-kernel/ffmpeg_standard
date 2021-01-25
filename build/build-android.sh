@@ -313,12 +313,14 @@ build_x265()
     cd ./${PLATFORM_PREFIX}
 
     cmake ../../source \
+          -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} \
           -DCMAKE_SYSTEM_NAME=Android \
           -DCMAKE_SYSTEM_VERSION=${SDK_VERSION} \
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
           -DENABLE_SHARED=0 \
+          -DENABLE_TESTS=0 \
           -DNEON_ANDROID=1
 
     if [ 0 -ne ${?} ]; then
