@@ -355,7 +355,6 @@ build_x265()
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-          -DCMAKE_C_FLAGS=${ADDI_CFLAGS} \
           -DCMAKE_CXX_COMPILER=${CXX} \
           -DCMAKE_AR=${AR} \
           -DCMAKE_NM=${NM} \
