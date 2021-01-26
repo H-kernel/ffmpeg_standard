@@ -364,7 +364,7 @@ build_x265()
     cd ./${TARGET}
 
     #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -D_FILE_OFFSET_BITS=64 -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -D__USE_FILE_OFFSET64 -mfloat-abi=softfp -mfpu=neon"
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
