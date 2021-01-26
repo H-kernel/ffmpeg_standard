@@ -15,7 +15,7 @@ export BUILD_SILENT=FALSE
 
 export SDK_VERSION=21
 #ARCH=arm64
-export ARCH=arm64
+export ARCH=arm
 
 
 
