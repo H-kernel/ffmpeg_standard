@@ -190,9 +190,11 @@ rebuild_ffmpeg()
 
 ndk_configure()
 {
+    VERSION_SUFFIX=${SDK_VERSION}
     if [ "$ARCH" = "arm64" ]; then
         export PLATFORM_PREFIX="aarch64-linux-android"
         export HOST="aarch64"
+        VERSION_SUFFIX=""
     elif [ "$ARCH" = "arm" ]; then
         export PLATFORM_PREFIX="arm-linux-androideabi"
         export HOST="arm"
@@ -223,7 +225,7 @@ ndk_configure()
     export LLVM_OBJDUMP=${TOOLCHAIN}/llvm-objdump
     export LLVM_RANLIB=${TOOLCHAIN}/llvm-ranlib
 
-    export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}-
+    export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}${VERSION_SUFFIX}-
 
     export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
     export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
