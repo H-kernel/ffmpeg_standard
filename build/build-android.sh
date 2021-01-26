@@ -365,17 +365,11 @@ build_x265()
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-          -DCMAKE_SYSTEM_VERSION=${API} \
           -DCMAKE_SYSTEM_NAME=Android \
+          -DCMAKE_SYSTEM_VERSION=${API} \
           -DCMAKE_ANDROID_ARCH_ABI=${ARCH_ABI} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-          -DCMAKE_C_COMPILER=${CC} \
-          -DCMAKE_C_FLAGS=${C_CXX_FLAGS} \
-          -DCMAKE_CXX_COMPILER=${CXX} \
-          -DCMAKE_CXX_FLAGS=${C_CXX_FLAGS} \
-          -DCMAKE_AR=${AR} \
-          -DCMAKE_NM=${NM} \
           -DNEON_ANDROID=1 \
           -G "Unix Makefiles" ../../source 
 
