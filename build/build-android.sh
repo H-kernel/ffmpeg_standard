@@ -262,6 +262,9 @@ ndk_configure()
     echo "NM=${NM}"
     echo "AR=${AR}"
     echo "CROSS_PREFIX=${CROSS_PREFIX}"
+    echo "ARCH_ABI=${ARCH_ABI}"
+    echo "MARCH=${MARCH}"
+    echo "HOST=${HOST}"
 
     echo "******************************************************************************"
 
