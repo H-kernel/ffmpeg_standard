@@ -73,6 +73,7 @@ build_ffmpeg()
     ./configure --prefix=$EXTEND_ROOT \
                 --toolchain=clang-usan \
                 --enable-cross-compile \
+                --cross-prefix=$CROSS_PREFIX \
                 --target-os=android \
                 --arch=$ARCH \
                 --sysroot=$SYSROOT \
