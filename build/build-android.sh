@@ -230,6 +230,25 @@ ndk_configure()
     export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
     export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
 
+
+    echo "********************************NDK ENV***************************************"
+
+    echo "PREBUILT=${PREBUILT}"
+    echo "SYSROOT=${SYSROOT}"
+    echo "TOOLCHAIN=${TOOLCHAIN}"
+    echo "CC=${CC}"
+    echo "CXX=${CXX}"
+    echo "LLVM_AR=${LLVM_AR}"
+    echo "LLVM_LINKER=${LLVM_LINKER}"
+    echo "LLVM_NM=${LLVM_NM}"
+    echo "LLVM_OBJDUMP=${LLVM_OBJDUMP}"
+    echo "LLVM_RANLIB=${LLVM_RANLIB}"
+    echo "CROSS_PREFIX=${CROSS_PREFIX}"
+    echo "ADDI_LDFLAGS=${ADDI_LDFLAGS}"
+    echo "ADDI_CFLAGS=${ADDI_CFLAGS}"
+
+    echo "******************************************************************************"
+
 }
 
 build_ndk()
