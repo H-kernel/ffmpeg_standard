@@ -429,6 +429,10 @@ all_modules_func()
 
         TEXT[4]="build the x265 module"
         FUNC[4]="build_x265"  
+        
+        TEXT[4]="build the ffmpeg module"
+        FUNC[4]="build_ffmpeg"  
+        
 }
 
 
