@@ -73,6 +73,8 @@ build_ffmpeg()
     ./configure --prefix=$PREFIX \
                 --toolchain=clang-usan \
                 --enable-cross-compile \
+                --target-os=android \
+                --arch=arm \
                 --cross-prefix=$CROSS_PREFIX \
                 --cc=${CC} \
                 --cxx=${CXX} \
@@ -362,7 +364,7 @@ build_x265()
     cd ./${TARGET}
 
     #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -fPIC -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
