@@ -422,7 +422,10 @@ all_modules_func()
         FUNC[1]="setup"     
 
         TEXT[2]="package the all module"
-        FUNC[2]="package_all"     
+        FUNC[2]="package_all"
+
+        TEXT[3]="build the x265 module"
+        FUNC[3]="build_x265"       
 }
 
 
