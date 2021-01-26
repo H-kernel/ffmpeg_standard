@@ -204,7 +204,7 @@ ndk_configure()
         export CROSS_PREFIX=${TOOLCHAIN}/bin/aarch64-linux-android-
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
-        export MARCH=armeabi-v7a
+        export MARCH=armv7a
         export ARCH_ABI=armeabi-v7a
         export PREFIX=${EXTEND_ROOT}/armeabi-v7a
         export HOST=armv7a-linux-android
@@ -361,8 +361,8 @@ build_x265()
     mkdir ./${TARGET}
     cd ./${TARGET}
 
-    #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${ARCH_ABI} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=armv7a -mfloat-abi=softfp -mfpu=neon"
+    #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -fPIC -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
