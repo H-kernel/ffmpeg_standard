@@ -194,6 +194,7 @@ ndk_configure()
 
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
+        export MARCH=arm64-v8a
         export PREFIX=${EXTEND_ROOT}/arm64-v8a
         export HOST=aarch64-linux-android
         export TARGET=aarch64-linux-android
@@ -202,6 +203,7 @@ ndk_configure()
         export CROSS_PREFIX=${TOOLCHAIN}/bin/aarch64-linux-android-
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
+        export MARCH=armv7-a
         export PREFIX=${EXTEND_ROOT}/armeabi-v7a
         export HOST=armv7a-linux-android
         export TARGET=armv7a-linux-androideabi
@@ -209,6 +211,7 @@ ndk_configure()
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/arm-linux-androideabi-
     elif [ "$ARCH" = "i686" ]; then
+        export MARCH=i686
         export PREFIX=${EXTEND_ROOT}/i686
         export HOST=i686-linux-android
         export TARGET=i686-linux-android
@@ -216,6 +219,7 @@ ndk_configure()
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/i686-linux-android-
     elif [ "$ARCH" = "x86_64" ]; then
+        export MARCH=x86_64
         export PREFIX=${EXTEND_ROOT}/x86_64
         export HOST=x86_64-linux-android
         export TARGET=x86_64-linux-android
@@ -239,7 +243,7 @@ ndk_configure()
     #export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}${VERSION_SUFFIX}-
 
     #export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
-    #export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
+    #export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
 
 
 
@@ -355,6 +359,7 @@ build_x265()
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
+          -DCMAKE_C_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon" \
           -DCMAKE_CXX_COMPILER=${CXX} \
           -DCMAKE_AR=${AR} \
           -DCMAKE_NM=${NM} \
