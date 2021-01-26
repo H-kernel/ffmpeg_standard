@@ -424,8 +424,11 @@ all_modules_func()
         TEXT[2]="package the all module"
         FUNC[2]="package_all"
 
+        TEXT[3]="build the ndk module"
+        FUNC[3]="build_ndk"
+
         TEXT[3]="build the x265 module"
-        FUNC[3]="build_x265"       
+        FUNC[3]="build_x265"  
 }
 
 
