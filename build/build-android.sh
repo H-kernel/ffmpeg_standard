@@ -369,6 +369,8 @@ build_x265()
           -DCMAKE_SYSTEM_VERSION=${API} \
           -DCMAKE_ANDROID_ARCH_ABI=${ARCH_ABI} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
+          -DCMAKE_CXX_FLAGS="${C_CXX_FLAGS}" \
+          -DCMAKE_C_FLAGS="${C_CXX_FLAGS}" \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
           -DNEON_ANDROID=1 \
           -G "Unix Makefiles" ../../source 
