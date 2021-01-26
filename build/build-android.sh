@@ -347,8 +347,8 @@ build_x265()
     tar -zxvf ${module_pack}
     
     cd x265*/build/
-    mkdir ./${PLATFORM_PREFIX}
-    cd ./${PLATFORM_PREFIX}
+    mkdir ./${TARGET}
+    cd ./${TARGET}
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
           -DCMAKE_SYSTEM_NAME=Android \
