@@ -13,7 +13,7 @@ export WITH_3RDPARTY=TRUE
 export WITH_DEBUG=FALSE
 export BUILD_SILENT=FALSE
 
-export SDK_VERSION=21
+export API=21
 #ARCH=arm64
 export ARCH=armv7a
 
@@ -70,18 +70,16 @@ build_ffmpeg()
         export debug_tag="--enable-debug --extra-cflags=-g --extra-ldflags=-g"
     fi
 
-    ./configure --prefix=$EXTEND_ROOT \
+    ./configure --prefix=$PREFIX \
                 --toolchain=clang-usan \
                 --enable-cross-compile \
                 --cross-prefix=$CROSS_PREFIX \
-                --target-os=android \
-                --arch=$ARCH \
-                --sysroot=$SYSROOT \
                 --cc=${CC} \
                 --cxx=${CXX} \
+                --ar=${AR} \
                 --strip=$TOOLCHAIN/arm-linux-androideabi-strip \
-                --extra-cflags="$ADDI_CFLAGS" \
-                --extra-ldflags="$ADDI_LDFLAGS" \
+                --extra-cflags="-I${PREFIX}/include -fPIE -pie -mfloat-abi=softfp -mfpu=neon" \
+                --extra-ldflags="-fPIE -pie L/${PREFIX}/lib" \
                 --disable-encoders \
                 --disable-decoders \
                 --disable-avdevice \
@@ -190,45 +188,60 @@ rebuild_ffmpeg()
 
 ndk_configure()
 {
-    VERSION_SUFFIX=${SDK_VERSION}
+    export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt
+    export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
+    export TOOLCHAIN=${PREBUILT}/linux-x86_64
+
     if [ "$ARCH" = "arm64" ]; then
-        export PLATFORM_PREFIX="aarch64-linux-android"
-        export HOST="aarch64"
-        VERSION_SUFFIX=""
-    elif [ "$ARCH" = "arm" ]; then
-        export PLATFORM_PREFIX="arm-linux-androideabi"
-        export HOST="arm"
+        #arm64-v8a
+        export PREFIX=${EXTEND_ROOT}/arm64-v8a
+        export HOST=aarch64-linux-android
+        export TARGET=aarch64-linux-android
+        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
+        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
+        export CROSS_PREFIX=${TOOLCHAIN}/bin/aarch64-linux-android-
     elif [ "$ARCH" = "armv7a" ]; then
-        export PLATFORM_PREFIX="armv7a-linux-androideabi"
-        export HOST="armv7a"
+        #armeabi-v7a
+        export PREFIX=${EXTEND_ROOT}/armeabi-v7a
+        export HOST=armv7a-linux-android
+        export TARGET=armv7a-linux-androideabi
+        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
+        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
+        export CROSS_PREFIX=${TOOLCHAIN}/bin/arm-linux-androideabi-
     elif [ "$ARCH" = "i686" ]; then
-        export PLATFORM_PREFIX="i686-linux-android"
-        export HOST="i686"
+        export PREFIX=${EXTEND_ROOT}/i686
+        export HOST=i686-linux-android
+        export TARGET=i686-linux-android
+        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
+        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
+        export CROSS_PREFIX=${TOOLCHAIN}/bin/i686-linux-android-
     elif [ "$ARCH" = "x86_64" ]; then
-        export PLATFORM_PREFIX="x86_64-linux-android"
-        export HOST="x86_64"
+        export PREFIX=${EXTEND_ROOT}/x86_64
+        export HOST=x86_64-linux-android
+        export TARGET=x86_64-linux-android
+        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
+        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
+        export CROSS_PREFIX=${TOOLCHAIN}/bin/x86_64-linux-android-
     else
         echo "unsupport ARCH:$ARCH."
         return -1
     fi
 
-    export PREBUILT=${ANDROID_NDK}/toolchains/llvm/prebuilt/
-    export SYSROOT=${PREBUILT}/linux-x86_64/sysroot
-    export TOOLCHAIN=${PREBUILT}/linux-x86_64/bin
+    export NM=${CROSS_PREFIX}nm
+    export AR=${CROSS_PREFIX}ar
 
-    export CC=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang
-    export CXX=${TOOLCHAIN}/${PLATFORM_PREFIX}${SDK_VERSION}-clang++
+    #export LLVM_AR=${TOOLCHAIN}/llvm-ar
+    #export LLVM_LINKER=${TOOLCHAIN}/llvm-ld
+    #export LLVM_NM=${TOOLCHAIN}/llvm-nm
+    #export LLVM_OBJDUMP=${TOOLCHAIN}/llvm-objdump
+    #export LLVM_RANLIB=${TOOLCHAIN}/llvm-ranlib
 
-    export LLVM_AR=${TOOLCHAIN}/llvm-ar
-    export LLVM_LINKER=${TOOLCHAIN}/llvm-ld
-    export LLVM_NM=${TOOLCHAIN}/llvm-nm
-    export LLVM_OBJDUMP=${TOOLCHAIN}/llvm-objdump
-    export LLVM_RANLIB=${TOOLCHAIN}/llvm-ranlib
+    #export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}${VERSION_SUFFIX}-
 
-    export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}${VERSION_SUFFIX}-
+    #export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
+    #export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
 
-    export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
-    export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${HOST} -mfloat-abi=softfp -mfpu=neon"
+
 
 
     echo "********************************NDK ENV***************************************"
@@ -238,11 +251,8 @@ ndk_configure()
     echo "TOOLCHAIN=${TOOLCHAIN}"
     echo "CC=${CC}"
     echo "CXX=${CXX}"
-    echo "LLVM_AR=${LLVM_AR}"
-    echo "LLVM_LINKER=${LLVM_LINKER}"
-    echo "LLVM_NM=${LLVM_NM}"
-    echo "LLVM_OBJDUMP=${LLVM_OBJDUMP}"
-    echo "LLVM_RANLIB=${LLVM_RANLIB}"
+    echo "NM=${NM}"
+    echo "AR=${AR}"
     echo "CROSS_PREFIX=${CROSS_PREFIX}"
     echo "ADDI_LDFLAGS=${ADDI_LDFLAGS}"
     echo "ADDI_CFLAGS=${ADDI_CFLAGS}"
@@ -300,8 +310,8 @@ build_x264()
     tar -jxvf ${module_pack}
     cd x264*/
     
-    ./configure --prefix=${EXTEND_ROOT} \
-                --host=${PLATFORM_PREFIX} \
+    ./configure --prefix=${PREFIX} \
+                --host=${HOST} \
                 --cross-prefix=${CROSS_PREFIX} \
                 --sysroot=${SYSROOT} \
                 --enable-static \
@@ -313,6 +323,7 @@ build_x264()
                 --disable-gpac  \
                 --disable-lavf  \
                 --disable-swscale 
+
     if [ 0 -ne ${?} ]; then
         echo "configure x264 fail!\n"
         return 1
@@ -341,20 +352,15 @@ build_x265()
     mkdir ./${PLATFORM_PREFIX}
     cd ./${PLATFORM_PREFIX}
 
-    cmake -DCMAKE_INSTALL_PREFIX=${EXTEND_ROOT} \
+    cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
           -DCMAKE_SYSTEM_NAME=Android \
           -DCMAKE_ANDROID_ARCH_ABI=${HOST} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
           -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-          -DCMAKE_C_COMPILER=${CC} \
           -DCMAKE_C_FLAGS=${ADDI_CFLAGS} \
           -DCMAKE_CXX_COMPILER=${CXX} \
-          -DCMAKE_CXX_FLAGS=${ADDI_CFLAGS} \
-          -DCMAKE_AR=${LLVM_AR} \
-          -DCMAKE_LINKER=${LLVM_LINKER} \
-          -DCMAKE_NM=${LLVM_NM} \
-          -DCMAKE_OBJDUMP=${LLVM_OBJDUMP} \
-          -DCMAKE_RANLIB=${LLVM_RANLIB} \
+          -DCMAKE_AR=${AR} \
+          -DCMAKE_NM=${NM} \
           -DENABLE_TESTS=OFF \
           -DNEON_ANDROID=1 \
           -G "Unix Makefiles" ../../source 
