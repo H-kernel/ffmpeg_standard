@@ -254,8 +254,6 @@ ndk_configure()
     echo "NM=${NM}"
     echo "AR=${AR}"
     echo "CROSS_PREFIX=${CROSS_PREFIX}"
-    echo "ADDI_LDFLAGS=${ADDI_LDFLAGS}"
-    echo "ADDI_CFLAGS=${ADDI_CFLAGS}"
 
     echo "******************************************************************************"
 
