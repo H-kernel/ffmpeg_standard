@@ -79,7 +79,7 @@ build_ffmpeg()
                 --cc=${CC} \
                 --cxx=${CXX} \
                 --ar=${AR} \
-                --strip=${CROSS_PREFIX}-strip \
+                --strip=${CROSS_PREFIX}strip \
                 --extra-cflags="-I${PREFIX}/include -fPIE -pie -mfloat-abi=softfp -mfpu=neon" \
                 --extra-ldflags="-fPIE -pie -L/${PREFIX}/lib" \
                 --disable-encoders \
