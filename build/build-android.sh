@@ -358,9 +358,11 @@ build_x265()
     mkdir ./${TARGET}
     cd ./${TARGET}
 
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${ARCH_ABI} -mfloat-abi=softfp -mfpu=neon"
+
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+          -DCMAKE_SYSTEM_VERSION=${API} \
           -DCMAKE_SYSTEM_NAME=Android \
           -DCMAKE_ANDROID_ARCH_ABI=${ARCH_ABI} \
           -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
@@ -371,7 +373,6 @@ build_x265()
           -DCMAKE_CXX_FLAGS=${C_CXX_FLAGS} \
           -DCMAKE_AR=${AR} \
           -DCMAKE_NM=${NM} \
-          -DENABLE_TESTS=OFF \
           -DNEON_ANDROID=1 \
           -G "Unix Makefiles" ../../source 
 
