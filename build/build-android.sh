@@ -196,7 +196,7 @@ ndk_configure()
 
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
-        export MARCH=arm64-v8a
+        export MARCH=""
         export ARCH_ABI=arm64-v8a
         export PREFIX=${EXTEND_ROOT}/arm64-v8a
         export HOST=aarch64-linux-android
@@ -206,7 +206,7 @@ ndk_configure()
         export CROSS_PREFIX=${TOOLCHAIN}/bin/aarch64-linux-android-
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
-        export MARCH=armv7a
+        export MARCH="-march=armv7a "
         export ARCH_ABI=armeabi-v7a
         export PREFIX=${EXTEND_ROOT}/armeabi-v7a
         export HOST=armv7a-linux-android
@@ -215,7 +215,7 @@ ndk_configure()
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/arm-linux-androideabi-
     elif [ "$ARCH" = "i686" ]; then
-        export MARCH=i686
+        export MARCH="-march=i686 "
         export ARCH_ABI=i686
         export PREFIX=${EXTEND_ROOT}/i686
         export HOST=i686-linux-android
@@ -224,7 +224,7 @@ ndk_configure()
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/i686-linux-android-
     elif [ "$ARCH" = "x86_64" ]; then
-        export MARCH=x86_64
+        export MARCH="-march=x86_64 "
         export ARCH_ABI=x86_64
         export PREFIX=${EXTEND_ROOT}/x86_64
         export HOST=x86_64-linux-android
@@ -364,7 +364,7 @@ build_x265()
     cd ./${TARGET}
 
     #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -D_FILE_OFFSET_BITS=64 -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC ${MARCH}-mfloat-abi=softfp -mfpu=neon"
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
