@@ -184,7 +184,7 @@ rebuild_ffmpeg()
     
     #change the libavutil/time.h to libavutil/avtime.h
     
-    mv ${EXTEND_ROOT}/include/libavutil/time.h ${EXTEND_ROOT}/include/libavutil/avtime.h
+    mv ${PREFIX}/include/libavutil/time.h ${PREFIX}/include/libavutil/avtime.h
     return 0
 }
 
@@ -364,7 +364,7 @@ build_x265()
     cd ./${TARGET}
 
     #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=${MARCH} -D_FILE_OFFSET_BITS=64 -mfloat-abi=softfp -mfpu=neon"
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
