@@ -467,12 +467,15 @@ all_modules_func()
 
         TEXT[3]="build the ndk module"
         FUNC[3]="build_ndk"
-
-        TEXT[4]="build the x265 module"
-        FUNC[4]="build_x265"  
         
-        TEXT[5]="build the ffmpeg module"
-        FUNC[5]="build_ffmpeg"  
+        TEXT[4]="build the x264 module"
+        FUNC[4]="build_x264"
+
+        TEXT[5]="build the x265 module"
+        FUNC[5]="build_x265"  
+        
+        TEXT[6]="build the ffmpeg module"
+        FUNC[6]="build_ffmpeg"  
         
 }
 
