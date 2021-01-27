@@ -14,8 +14,8 @@ export WITH_DEBUG=FALSE
 export BUILD_SILENT=FALSE
 
 export API=21
-export ARCH=arm64
-#export ARCH=armv7a
+#export ARCH=arm64
+export ARCH=armv7a
 
 
 
