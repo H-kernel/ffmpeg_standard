@@ -74,13 +74,13 @@ build_ffmpeg()
                 --toolchain=clang-usan \
                 --enable-cross-compile \
                 --target-os=android \
-                --arch=arm \
+                --arch=aarch64 \
                 --cross-prefix=$CROSS_PREFIX \
                 --cc=${CC} \
                 --cxx=${CXX} \
                 --ar=${AR} \
                 --strip=${CROSS_PREFIX}strip \
-                --extra-cflags="-I${PREFIX}/include -fPIE -pie -mcpu=arm -mfloat-abi=softfp -mfpu=neon" \
+                --extra-cflags="-I${PREFIX}/include -fPIE -pie -march=armv8-a -mfloat-abi=softfp -mfpu=neon" \
                 --extra-ldflags="-fPIE -pie -L/${PREFIX}/lib" \
                 --disable-encoders \
                 --disable-decoders \
