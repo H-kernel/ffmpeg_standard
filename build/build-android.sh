@@ -70,17 +70,30 @@ build_ffmpeg()
         export debug_tag="--enable-debug --extra-cflags=-g --extra-ldflags=-g"
     fi
 
+    if [ "$ARCH" = "arm64" ]; then
+        #arm64-v8a
+        ARCH=aarch64
+        MARCH=armv8-a
+    elif [ "$ARCH" = "armv7a" ]; then
+        #armeabi-v7a
+        ARCH=arm
+        MARCH=armv7-a
+    else
+        echo "unsupport ARCH:$ARCH."
+        return -1
+    fi
+
     ./configure --prefix=$PREFIX \
                 --toolchain=clang-usan \
                 --enable-cross-compile \
                 --target-os=android \
-                --arch=aarch64 \
+                --arch=${ARCH} \
                 --cross-prefix=$CROSS_PREFIX \
                 --cc=${CC} \
                 --cxx=${CXX} \
                 --ar=${AR} \
                 --strip=${CROSS_PREFIX}strip \
-                --extra-cflags="-I${PREFIX}/include -fPIE -pie -march=armv8-a -mfloat-abi=softfp -mfpu=neon" \
+                --extra-cflags="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon" \
                 --extra-ldflags="-fPIE -pie -L/${PREFIX}/lib" \
                 --disable-encoders \
                 --disable-decoders \
@@ -150,7 +163,7 @@ build_ffmpeg()
     
     #change the libavutil/time.h to libavutil/avtime.h
     
-    mv ${EXTEND_ROOT}/include/libavutil/time.h ${EXTEND_ROOT}/include/libavutil/avtime.h
+    mv ${PREFIX}/include/libavutil/time.h ${PREFIX}/include/libavutil/avtime.h
     return 0
 }
 
@@ -196,42 +209,18 @@ ndk_configure()
 
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
-        export MARCH=""
-        export ARCH_ABI=arm64-v8a
         export PREFIX=${EXTEND_ROOT}/arm64-v8a
-        export HOST=aarch64-linux-android
         export TARGET=aarch64-linux-android
         export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/aarch64-linux-android-
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
-        export MARCH="-march=armv7a "
-        export ARCH_ABI=armeabi-v7a
         export PREFIX=${EXTEND_ROOT}/armeabi-v7a
-        export HOST=armv7a-linux-android
         export TARGET=armv7a-linux-androideabi
         export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
         export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
         export CROSS_PREFIX=${TOOLCHAIN}/bin/arm-linux-androideabi-
-    elif [ "$ARCH" = "i686" ]; then
-        export MARCH="-march=i686 "
-        export ARCH_ABI=i686
-        export PREFIX=${EXTEND_ROOT}/i686
-        export HOST=i686-linux-android
-        export TARGET=i686-linux-android
-        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
-        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
-        export CROSS_PREFIX=${TOOLCHAIN}/bin/i686-linux-android-
-    elif [ "$ARCH" = "x86_64" ]; then
-        export MARCH="-march=x86_64 "
-        export ARCH_ABI=x86_64
-        export PREFIX=${EXTEND_ROOT}/x86_64
-        export HOST=x86_64-linux-android
-        export TARGET=x86_64-linux-android
-        export CC=${TOOLCHAIN}/bin/${TARGET}${API}-clang
-        export CXX=${TOOLCHAIN}/bin/${TARGET}${API}-clang++
-        export CROSS_PREFIX=${TOOLCHAIN}/bin/x86_64-linux-android-
     else
         echo "unsupport ARCH:$ARCH."
         return -1
@@ -239,20 +228,6 @@ ndk_configure()
 
     export NM=${CROSS_PREFIX}nm
     export AR=${CROSS_PREFIX}ar
-
-    #export LLVM_AR=${TOOLCHAIN}/llvm-ar
-    #export LLVM_LINKER=${TOOLCHAIN}/llvm-ld
-    #export LLVM_NM=${TOOLCHAIN}/llvm-nm
-    #export LLVM_OBJDUMP=${TOOLCHAIN}/llvm-objdump
-    #export LLVM_RANLIB=${TOOLCHAIN}/llvm-ranlib
-
-    #export CROSS_PREFIX=${TOOLCHAIN}/${PLATFORM_PREFIX}${VERSION_SUFFIX}-
-
-    #export ADDI_LDFLAGS="-fPIE -pie L/${EXTEND_ROOT}/lib"
-    #export ADDI_CFLAGS="-I${EXTEND_ROOT}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-
-
-
 
     echo "********************************NDK ENV***************************************"
 
@@ -264,9 +239,6 @@ ndk_configure()
     echo "NM=${NM}"
     echo "AR=${AR}"
     echo "CROSS_PREFIX=${CROSS_PREFIX}"
-    echo "ARCH_ABI=${ARCH_ABI}"
-    echo "MARCH=${MARCH}"
-    echo "HOST=${HOST}"
 
     echo "******************************************************************************"
 
@@ -320,6 +292,17 @@ build_x264()
     fi
     tar -jxvf ${module_pack}
     cd x264*/
+
+    if [ "$ARCH" = "arm64" ]; then
+        #arm64-v8a
+        HOST=aarch64-linux-android
+    elif [ "$ARCH" = "armv7a" ]; then
+        #armeabi-v7a
+        HOST=armv7a-linux-android
+    else
+        echo "unsupport ARCH:$ARCH."
+        return -1
+    fi
     
     ./configure --prefix=${PREFIX} \
                 --host=${HOST} \
@@ -362,9 +345,19 @@ build_x265()
     cd x265*/build/
     mkdir ./${TARGET}
     cd ./${TARGET}
-
-    #C_CXX_FLAGS="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon"
-    C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC ${MARCH}-mfloat-abi=softfp -mfpu=neon"
+    C_CXX_FLAGS=""
+    if [ "$ARCH" = "arm64" ]; then
+        #arm64-v8a
+        ARCH_ABI=arm64-v8a
+        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=armv8-a -mfloat-abi=softfp -mfpu=neon"
+    elif [ "$ARCH" = "armv7a" ]; then
+        #armeabi-v7a
+        ARCH_ABI=armeabi-v7a
+        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=armv7a -mfloat-abi=softfp -mfpu=neon"
+    else
+        echo "unsupport ARCH:$ARCH."
+        return -1
+    fi
 
 
     cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
