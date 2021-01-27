@@ -80,7 +80,7 @@ build_ffmpeg()
                 --cxx=${CXX} \
                 --ar=${AR} \
                 --strip=${CROSS_PREFIX}strip \
-                --extra-cflags="-I${PREFIX}/include -fPIE -pie ${MARCH}-mfloat-abi=softfp -mfpu=neon" \
+                --extra-cflags="-I${PREFIX}/include -fPIE -pie -mcpu=arm -mfloat-abi=softfp -mfpu=neon" \
                 --extra-ldflags="-fPIE -pie -L/${PREFIX}/lib" \
                 --disable-encoders \
                 --disable-decoders \
