@@ -13,7 +13,7 @@ export WITH_3RDPARTY=TRUE
 export WITH_DEBUG=FALSE
 export BUILD_SILENT=FALSE
 
-export API=21
+export API=24
 #export ARCH=arm64
 export ARCH=armv7a
 
@@ -108,6 +108,7 @@ build_ffmpeg()
                 --enable-neon \
                 --enable-shared \
                 --enable-libx264 \
+                --enable-libx265 \
                 --enable-gpl \
                 --enable-pic \
                 --enable-jni \
