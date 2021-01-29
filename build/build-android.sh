@@ -354,7 +354,7 @@ build_x265()
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
         ARCH_ABI=armeabi-v7a
-        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=armv7a -mfloat-abi=softfp -mfpu=neon"
+        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -D__MINGW32__ -march=armv7a -mfloat-abi=softfp -mfpu=neon"
     else
         echo "unsupport ARCH:$ARCH."
         return -1
