@@ -69,6 +69,8 @@ set_extend_config()
     else
         export PATH=${PREFIX}/bin/:${PATH}
     fi
+
+    pkg-config --list-all
 }
 
 build_ffmpeg()
