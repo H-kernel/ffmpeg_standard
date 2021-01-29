@@ -54,7 +54,22 @@ download_3rd()
     return 0
 }
 
-
+set_extend_config()
+{
+    find=`env|grep PKG_CONFIG_PATH`    
+    if [ "find${find}" == "find" ]; then    
+        export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+    else
+        export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/:${PKG_CONFIG_PATH}
+    fi
+    
+    find=`env|grep PATH`
+    if [ "find${find}" == "find" ]; then    
+        export PATH=${PREFIX}/bin/
+    else
+        export PATH=${PREFIX}/bin/:${PATH}
+    fi
+}
 
 build_ffmpeg()
 {    
@@ -63,6 +78,8 @@ build_ffmpeg()
     chmod +x *.sh
     cd ..
     chmod +x configure
+
+    set_extend_config
     
     export debug_tag=--disable-debug
     
