@@ -104,6 +104,7 @@ build_ffmpeg()
 
     ./configure --prefix=$PREFIX \
                 --toolchain=clang-usan \
+                --pkg-config="pkg-config --static" \
                 --enable-cross-compile \
                 --target-os=android \
                 --arch=${ARCH} \
