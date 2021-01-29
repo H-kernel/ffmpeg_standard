@@ -91,11 +91,11 @@ build_ffmpeg()
 
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
-        ARCH=aarch64
+        HOST_ARCH=aarch64
         MARCH=armv8-a
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
-        ARCH=arm
+        HOST_ARCH=arm
         MARCH=armv7-a
     else
         echo "unsupport ARCH:$ARCH."
@@ -107,7 +107,7 @@ build_ffmpeg()
                 --pkg-config="pkg-config --static" \
                 --enable-cross-compile \
                 --target-os=android \
-                --arch=${ARCH} \
+                --arch=${HOST_ARCH} \
                 --cross-prefix=$CROSS_PREFIX \
                 --cc=${CC} \
                 --cxx=${CXX} \
