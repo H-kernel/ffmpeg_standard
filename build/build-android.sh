@@ -1,7 +1,6 @@
 #!/bin/bash
 #set -x
 set -o nounset
-MK_VERSION="ffmpeg 1.0.1"
 CURRENT_PATH=`pwd`
 cd ${CURRENT_PATH}/..
 export MK_ROOT=$PWD
