@@ -274,7 +274,7 @@ build_x264()
 	CC="xcrun -sdk $XCRUN_SDK clang"
 	if [ $PLATFORM = "iPhoneOS" ]
 	then
-	    export AS="$CWD/$SOURCE/tools/gas-preprocessor.pl $XARCH -- $CC"
+	    export AS="${CURRENT_PATH}/script/gas-preprocessor/gas-preprocessor.pl $XARCH -- $CC"
 	else
 	    export -n AS
 	fi

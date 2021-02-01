@@ -1,0 +1,3 @@
+[submodule "build/script/gas-preprocessor"]
+	path = build/script/gas-preprocessor
+	url = https://github.com/libav/gas-preprocessor.git
