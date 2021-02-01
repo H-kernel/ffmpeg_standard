@@ -281,13 +281,21 @@ build_x264()
 	CXXFLAGS="$CFLAGS"
 	LDFLAGS="$CFLAGS"
 
-	CC=$CC ./configure \
+    echo ${CC}
+
+	CC=$CC 
+    ./configure \
 		    $CONFIGURE_FLAGS \
 		    $HOST \
 		    --extra-cflags="$CFLAGS" \
 		    --extra-asflags="$ASFLAGS" \
 		    --extra-ldflags="$LDFLAGS" \
 		    --prefix="$EXTEND_ROOT/$ARCH"
+
+    if [ 0 -ne ${?} ]; then
+        echo "configure x264 fail!\n"
+        return 1
+    fi
             
     make && make install
     
