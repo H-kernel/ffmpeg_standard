@@ -48,7 +48,7 @@ download_3rd()
         package=`echo "${LINE}"|awk -F '|' '{print $3}'`
         if [ ! -f ${THIRD_ROOT}/${package} ]; then
             echo "begin:download :${name}..................."
-            wget --no-check-certificate ${url} -O ${THIRD_ROOT}/${package}
+            curl ${url} -o ${THIRD_ROOT}/${package}
             echo "end:download :${name}....................."
         fi     
     done
@@ -235,7 +235,7 @@ build_x264()
     cd ${THIRD_ROOT}
     if [ ! -f ${THIRD_ROOT}${module_pack} ]; then
         echo "start get the x264 package from server\n"
-        wget http://download.videolan.org/pub/videolan/x264/snapshots/${module_pack}
+        curl -O http://download.videolan.org/pub/videolan/x264/snapshots/${module_pack}
     fi
     tar -jxvf ${module_pack}
     cd x264*/
@@ -307,7 +307,7 @@ build_x265()
     cd ${THIRD_ROOT}
     if [ ! -f ${THIRD_ROOT}${module_pack} ]; then
         echo "start get the x265 package from server\n"
-        wget http://download.videolan.org/pub/videolan/x265/${module_pack}
+        curl -O http://download.videolan.org/pub/videolan/x265/${module_pack}
     fi
     tar -zxvf ${module_pack}
     
@@ -461,8 +461,8 @@ mkdir -p ${PREFIX_ROOT}/lib
 QUIT=0
 while [ "$QUIT" == "0" ]; do
     OPTION_NUM=1
-    if [ ! -x "`which wget 2>/dev/null`" ]; then
-        echo "Need to install wget."
+    if [ ! -x "`which curl 2>/dev/null`" ]; then
+        echo "Need to install curl."
         break 
     fi
     for s in $(seq ${#STEPS[@]}) ; do
