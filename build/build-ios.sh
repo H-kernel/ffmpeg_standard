@@ -279,7 +279,7 @@ build_x264()
 	    export -n AS
 	fi
 	CXXFLAGS="$CFLAGS"
-	LDFLAGS="$CFLAGS"
+	LDFLAGS="$CFLAGS -l"
 
     echo "CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
