@@ -283,8 +283,7 @@ build_x264()
 
     echo ${CC}
 
-	CC=$CC 
-    ./configure \
+	CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
 		    $HOST \
 		    --extra-cflags="$CFLAGS" \
