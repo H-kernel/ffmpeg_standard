@@ -281,7 +281,13 @@ build_x264()
 	CXXFLAGS="$CFLAGS"
 	LDFLAGS="$CFLAGS"
 
-    echo ${CC}
+    echo "CC=$CC ./configure \
+		    $CONFIGURE_FLAGS \
+		    $HOST \
+		    --extra-cflags=\"$CFLAGS\" \
+		    --extra-asflags=\"$ASFLAGS\" \
+		    --extra-ldflags=\"$LDFLAGS\" \
+		    --prefix=\"$EXTEND_ROOT/$ARCH\""
 
 	CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
