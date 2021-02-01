@@ -35,7 +35,7 @@ fi
 
 download_3rd()
 {
-    if [ ! -f ${CURRENT_PATH}/3rd_party/3rd.list ]; then
+    if [ ! -f ${CURRENT_PATH}/3rd_party/3rd-android.list ]; then
         echo "there is no 3rd package list\n"
         return 1
     fi
