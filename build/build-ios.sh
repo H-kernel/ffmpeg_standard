@@ -288,7 +288,7 @@ build_x264()
 		    --extra-cflags="$CFLAGS" \
 		    --extra-asflags="$ASFLAGS" \
 		    --extra-ldflags="$LDFLAGS" \
-		    --prefix="$PREFIX"
+		    --prefix="$EXTEND_ROOT/$ARCH"
             
     make && make install
     
