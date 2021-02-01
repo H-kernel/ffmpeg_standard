@@ -17,7 +17,7 @@ CONFIGURE_FLAGS="--enable-static --enable-pic --disable-cli"
 
 ARCHS="arm64 x86_64 i386 armv7 armv7s"
 
-export ARCH=arm64
+export ARCH=armv7
 
 
 echo "------------------------------------------------------------------------------"
