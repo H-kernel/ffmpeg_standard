@@ -241,8 +241,6 @@ build_x264()
     cd x264*/
 
     echo "building $ARCH..."
-	mkdir -p "$SCRATCH/$ARCH"
-	cd "$SCRATCH/$ARCH"
 	CFLAGS="-arch $ARCH"
     ASFLAGS=
 
