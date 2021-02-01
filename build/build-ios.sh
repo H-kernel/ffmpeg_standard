@@ -281,8 +281,7 @@ build_x264()
 	CXXFLAGS="$CFLAGS"
 	LDFLAGS="$CFLAGS"
 
-	CC=$CC 
-    ./configure \
+	CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
 		    $HOST \
 		    --extra-cflags="$CFLAGS" \
