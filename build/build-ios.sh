@@ -266,7 +266,7 @@ build_x264()
 	        HOST="--host=arm-apple-darwin"
 			XARCH="-arch arm"
 	    fi
-        CFLAGS="$CFLAGS -fembed-bitcode -mios-version-min=11.3 -all_load"
+        CFLAGS="$CFLAGS -fembed-bitcode -mios-version-min=10 -all_load"
         ASFLAGS="$CFLAGS"
 	fi
 
