@@ -59,16 +59,16 @@ set_extend_config()
 {
     find=`env|grep PKG_CONFIG_PATH`    
     if [ "find${find}" == "find" ]; then    
-        export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+        export PKG_CONFIG_PATH=$EXTEND_ROOT/$ARCH/lib/pkgconfig/
     else
-        export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/:${PKG_CONFIG_PATH}
+        export PKG_CONFIG_PATH=$EXTEND_ROOT/$ARCH/lib/pkgconfig/:${PKG_CONFIG_PATH}
     fi
     
     find=`env|grep PATH`
     if [ "find${find}" == "find" ]; then    
-        export PATH=${PREFIX}/bin/
+        export PATH=$EXTEND_ROOT/$ARCH/bin/
     else
-        export PATH=${PREFIX}/bin/:${PATH}
+        export PATH=$EXTEND_ROOT/$ARCH/bin/:${PATH}
     fi
 
     pkg-config --list-all
