@@ -55,24 +55,6 @@ download_3rd()
     return 0
 }
 
-set_extend_config()
-{
-    find=`env|grep PKG_CONFIG_PATH`    
-    if [ "find${find}" == "find" ]; then    
-        export PKG_CONFIG_PATH=$EXTEND_ROOT/$ARCH/lib/pkgconfig/
-    else
-        export PKG_CONFIG_PATH=$EXTEND_ROOT/$ARCH/lib/pkgconfig/:${PKG_CONFIG_PATH}
-    fi
-    
-    find=`env|grep PATH`
-    if [ "find${find}" == "find" ]; then    
-        export PATH=$EXTEND_ROOT/$ARCH/bin/
-    else
-        export PATH=$EXTEND_ROOT/$ARCH/bin/:${PATH}
-    fi
-
-    pkg-config --list-all
-}
 
 build_ffmpeg()
 {    
@@ -82,7 +64,6 @@ build_ffmpeg()
     cd ..
     chmod +x configure
 
-    set_extend_config
     
     export debug_tag=--disable-debug
     
@@ -140,7 +121,6 @@ build_ffmpeg()
                 --arch=${ARCH} \
                 --cc=${CC} \
                 --as="$AS" \
-                --strip=${CROSS_PREFIX}strip \
                 --extra-cflags="-I$EXTEND_ROOT/$ARCH/include -fPIE -pie ${CXXFLAGS}" \
                 --extra-ldflags="-fPIE -pie -L/$EXTEND_ROOT/$ARCH/lib ${LDFLAGS}" \
                 --disable-encoders \
