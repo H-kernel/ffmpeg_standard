@@ -158,7 +158,6 @@ build_ffmpeg()
                 --enable-decoder=aac_latm \
                 --enable-decoder=libopenjpeg \
                 --enable-decoder=mp3 \
-                --enable-decoder=mpeg4_mediacodec \
                 --enable-decoder=pcm_s16le \
                 --enable-decoder=flac \
                 --enable-decoder=flv \
@@ -167,9 +166,6 @@ build_ffmpeg()
                 --enable-decoder=srt \
                 --enable-decoder=xsub \
                 --enable-decoder=yuv4 \
-                --enable-decoder=vp8_mediacodec \
-                --enable-decoder=h264_mediacodec \
-                --enable-decoder=hevc_mediacodec \
                 --enable-bsf=aac_adtstoasc \
                 --enable-bsf=h264_mp4toannexb \
                 --enable-bsf=hevc_mp4toannexb \
