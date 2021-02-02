@@ -323,8 +323,8 @@ build_x265()
     tar -zxvf ${module_pack}
     
     cd x265*/build/
-    mkdir ./${TARGET}
-    cd ./${TARGET}
+    mkdir ./${ARCH}
+    cd ./${ARCH}
     C_CXX_FLAGS=""
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
