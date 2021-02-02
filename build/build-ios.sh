@@ -117,7 +117,7 @@ build_ffmpeg()
                 --disable-programs \
                 --pkg-config="pkg-config --static" \
                 --enable-cross-compile \
-                --target-os=android \
+                --target-os=iOS \
                 --arch=${ARCH} \
                 --cc="${CC}" \
                 --as="$AS" \
