@@ -328,27 +328,20 @@ build_x265()
     C_CXX_FLAGS=""
     if [ "$ARCH" = "arm64" ]; then
         #arm64-v8a
-        ARCH_ABI=arm64-v8a
-        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC -march=armv8-a -mfloat-abi=softfp -mfpu=neon"
+        ARCH_ABI=aarch64
     elif [ "$ARCH" = "armv7a" ]; then
         #armeabi-v7a
-        ARCH_ABI=armeabi-v7a
-        C_CXX_FLAGS="-I${PREFIX}/include -fPIE -fPIC  -march=armv7a -mfloat-abi=softfp -mfpu=neon"
+        ARCH_ABI=armv7
     else
         echo "unsupport ARCH:$ARCH."
         return -1
     fi
 
 
-    cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-          -DCMAKE_SYSTEM_NAME=Android \
-          -DCMAKE_SYSTEM_VERSION=${API} \
-          -DCMAKE_ANDROID_ARCH_ABI=${ARCH_ABI} \
-          -DCMAKE_ANDROID_NDK=${ANDROID_NDK} \
-          -DCMAKE_CXX_FLAGS="${C_CXX_FLAGS}" \
-          -DCMAKE_C_FLAGS="${C_CXX_FLAGS}" \
-          -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-          -DNEON_ANDROID=1 \
+    cmake -DCMAKE_INSTALL_PREFIX=$EXTEND_ROOT/$ARCH \
+          -DCMAKE_SYSTEM_NAME=iOS \
+          -DCROSS_COMPILE_ARM=1 \
+          -DCMAKE_SYSTEM_PROCESSOR=${ARCH_ABI} \
           -G "Unix Makefiles" ../../source 
 
     if [ 0 -ne ${?} ]; then
