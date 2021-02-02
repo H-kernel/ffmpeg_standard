@@ -266,7 +266,7 @@ build_x264()
 	        HOST="--host=arm-apple-darwin"
 			XARCH="-arch arm"
 	    fi
-        CFLAGS="$CFLAGS -fembed-bitcode -mios-version-min=10 -all_load"
+        CFLAGS="$CFLAGS -fembed-bitcode -mios-version-min=10"
         ASFLAGS="$CFLAGS"
 	fi
 
@@ -280,7 +280,7 @@ build_x264()
 	    export -n AS
 	fi
 	CXXFLAGS="$CFLAGS"
-	LDFLAGS="$CFLAGS -l"
+	LDFLAGS="$CFLAGS"
 
     echo "CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
