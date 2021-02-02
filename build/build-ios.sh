@@ -344,7 +344,7 @@ build_x265()
           -DCMAKE_SYSTEM_NAME=iOS \
           -DCROSS_COMPILE_ARM=1 \
           -DCMAKE_SYSTEM_PROCESSOR=${ARCH_ABI} \
-          -G "Unix Makefiles" ../../source 
+          -G "Xcode" ../../source 
 
     if [ 0 -ne ${?} ]; then
         echo "configure x265 fail!\n"
