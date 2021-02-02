@@ -222,11 +222,6 @@ rebuild_ffmpeg()
 }
 
 
-build_ndk()
-{
-    return 0
-}
-
 build_x264()
 {
     module_pack="x264-snapshot-20190814-2245-stable.tar.bz2"
@@ -355,11 +350,6 @@ build_x265()
 
 build_extend_modules()
 {
-    build_ndk
-    if [ 0 -ne ${?} ]; then
-        return 1
-    fi
-
     build_x264
     if [ 0 -ne ${?} ]; then
         return 1
@@ -423,18 +413,15 @@ all_modules_func()
 
         TEXT[2]="package the all module"
         FUNC[2]="package_all"
-
-        TEXT[3]="build the ndk module"
-        FUNC[3]="build_ndk"
         
-        TEXT[4]="build the x264 module"
-        FUNC[4]="build_x264"
+        TEXT[3]="build the x264 module"
+        FUNC[3]="build_x264"
 
-        TEXT[5]="build the x265 module"
-        FUNC[5]="build_x265"  
+        TEXT[4]="build the x265 module"
+        FUNC[4]="build_x265"  
         
-        TEXT[6]="build the ffmpeg module"
-        FUNC[6]="build_ffmpeg"  
+        TEXT[5]="build the ffmpeg module"
+        FUNC[5]="build_ffmpeg"  
         
 }
 
