@@ -139,7 +139,6 @@ build_ffmpeg()
                 --enable-pic \
                 --enable-jni \
                 --enable-pthreads \
-                --enable-mediacodec \
                 --enable-encoder=aac \
                 --enable-encoder=gif \
                 --enable-encoder=libopenjpeg \
