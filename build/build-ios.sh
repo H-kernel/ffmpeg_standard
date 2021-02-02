@@ -183,7 +183,7 @@ build_ffmpeg()
     
     #change the libavutil/time.h to libavutil/avtime.h
     
-    mv ${PREFIX}/include/libavutil/time.h ${PREFIX}/include/libavutil/avtime.h
+    mv $EXTEND_ROOT/$ARCH/include/libavutil/time.h $EXTEND_ROOT/$ARCH/include/libavutil/avtime.h
     return 0
 }
 
