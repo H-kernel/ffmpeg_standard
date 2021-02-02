@@ -119,7 +119,7 @@ build_ffmpeg()
                 --enable-cross-compile \
                 --target-os=android \
                 --arch=${ARCH} \
-                --cc=${CC} \
+                --cc="${CC}" \
                 --as="$AS" \
                 --extra-cflags="-I$EXTEND_ROOT/$ARCH/include -fPIE -pie ${CXXFLAGS}" \
                 --extra-ldflags="-fPIE -pie -L/$EXTEND_ROOT/$ARCH/lib ${LDFLAGS}" \
