@@ -90,32 +90,59 @@ build_ffmpeg()
         export debug_tag="--enable-debug --extra-cflags=-g --extra-ldflags=-g"
     fi
 
-    if [ "$ARCH" = "arm64" ]; then
-        #arm64-v8a
-        HOST_ARCH=aarch64
-        MARCH=armv8-a
-    elif [ "$ARCH" = "armv7a" ]; then
-        #armeabi-v7a
-        HOST_ARCH=arm
-        MARCH=armv7-a
-    else
-        echo "unsupport ARCH:$ARCH."
-        return -1
-    fi
+    CFLAGS="-arch $ARCH"
+    ASFLAGS=
 
-    ./configure --prefix=$PREFIX \
-                --toolchain=clang-usan \
+	if [ "$ARCH" = "i386" -o "$ARCH" = "x86_64" ]
+	then
+	    PLATFORM="iPhoneSimulator"
+	    CPU=
+	    if [ "$ARCH" = "x86_64" ]
+	    then
+	    	CFLAGS="$CFLAGS -mios-simulator-version-min=8.0"
+	    	HOST=
+	    else
+	    	CFLAGS="$CFLAGS -mios-simulator-version-min=8.0"
+			HOST="--host=i386-apple-darwin"
+	    fi
+	else
+	    PLATFORM="iPhoneOS"
+	    if [ $ARCH = "arm64" ]
+	    then
+	        HOST="--host=aarch64-apple-darwin"
+			XARCH="-arch aarch64"
+	    else
+	        HOST="--host=arm-apple-darwin"
+			XARCH="-arch arm"
+	    fi
+        CFLAGS="$CFLAGS -fembed-bitcode -mios-version-min=10"
+        ASFLAGS="$CFLAGS"
+	fi
+
+	XCRUN_SDK=`echo $PLATFORM | tr '[:upper:]' '[:lower:]'`
+	CC="xcrun -sdk $XCRUN_SDK clang"
+    CXX="xcrun -sdk $XCRUN_SDK clang++"
+	if [ $PLATFORM = "iPhoneOS" ]
+	then
+	    export AS="${CURRENT_PATH}/script/gas-preprocessor/gas-preprocessor.pl $XARCH -- $CC"
+	else
+	    export -n AS
+	fi
+	CXXFLAGS="$CFLAGS"
+	LDFLAGS="$CFLAGS"
+
+
+	CC=$CC ./configure --prefix=$EXTEND_ROOT/$ARCH \
+                --disable-programs \
                 --pkg-config="pkg-config --static" \
                 --enable-cross-compile \
                 --target-os=android \
-                --arch=${HOST_ARCH} \
-                --cross-prefix=$CROSS_PREFIX \
+                --arch=${ARCH} \
                 --cc=${CC} \
-                --cxx=${CXX} \
-                --ar=${AR} \
+                --as="$AS" \
                 --strip=${CROSS_PREFIX}strip \
-                --extra-cflags="-I${PREFIX}/include -fPIE -pie -march=${MARCH} -mfloat-abi=softfp -mfpu=neon" \
-                --extra-ldflags="-fPIE -pie -L/${PREFIX}/lib" \
+                --extra-cflags="-I$EXTEND_ROOT/$ARCH/include -fPIE -pie ${CXXFLAGS}" \
+                --extra-ldflags="-fPIE -pie -L/$EXTEND_ROOT/$ARCH/lib ${LDFLAGS}" \
                 --disable-encoders \
                 --disable-decoders \
                 --disable-avdevice \
@@ -129,7 +156,6 @@ build_ffmpeg()
                 --enable-neon \
                 --enable-shared \
                 --enable-libx264 \
-                --enable-libx265 \
                 --enable-gpl \
                 --enable-pic \
                 --enable-jni \
@@ -282,13 +308,6 @@ build_x264()
 	CXXFLAGS="$CFLAGS"
 	LDFLAGS="$CFLAGS"
 
-    echo "CC=$CC ./configure \
-		    $CONFIGURE_FLAGS \
-		    $HOST \
-		    --extra-cflags=\"$CFLAGS\" \
-		    --extra-asflags=\"$ASFLAGS\" \
-		    --extra-ldflags=\"$LDFLAGS\" \
-		    --prefix=\"$EXTEND_ROOT/$ARCH\""
 
 	CC=$CC ./configure \
 		    $CONFIGURE_FLAGS \
@@ -344,7 +363,7 @@ build_x265()
           -DCMAKE_SYSTEM_NAME=iOS \
           -DCROSS_COMPILE_ARM=1 \
           -DCMAKE_SYSTEM_PROCESSOR=${ARCH_ABI} \
-          -G "Xcode" ../../source 
+          -G "Unix Makefiles" ../../source 
 
     if [ 0 -ne ${?} ]; then
         echo "configure x265 fail!\n"
