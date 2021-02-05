@@ -125,14 +125,14 @@ build_ffmpeg()
                 --disable-encoders \
                 --disable-decoders \
                 --disable-avdevice \
-                --disable-static \
+                --disable-shared \
                 --disable-doc \
                 --disable-ffplay \
                 --disable-network \
                 --disable-doc \
                 --disable-symver \
                 --disable-ffprobe \
-                --enable-shared \
+                --enable-static \
                 --enable-libx264 \
                 --enable-gpl \
                 --enable-pic \
